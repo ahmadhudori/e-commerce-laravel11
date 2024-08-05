@@ -11,10 +11,12 @@
 	@foreach ($products as $product)
 	    <p>Name : {{ $product->name }}</p>
 	    <img src="{{ url('storage/' . $product->image) }}" alt="{{ $product->name }}" height="100" class="max-h-56">
-	    {{-- <form action="{{ route('show_product',  $product) }}" method="get">
-		<button type="submit">Detail</button>
-	    </form> --}}
 	    <a href="{{ route('show_product',  $product) }}">detail</a>
+	    <form action="{{ route('delete_product', $product) }}" method="post" onsubmit="return confirm('Are you sure?')">
+		@method('delete')
+		@csrf
+		<button type="submit">Delete</button>
+	    </form>
 	    <hr>
 	@endforeach
 </body>
