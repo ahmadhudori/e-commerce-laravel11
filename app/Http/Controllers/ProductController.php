@@ -48,4 +48,34 @@ class ProductController extends Controller
     public function show_product(Product $product) {
 	return view('show_product', compact('product'));
     }
+
+    public function edit_product(Product $product) {
+	return view('edit_product', compact('product'));
+    }
+
+    public function update_product(Request $request, Product $product) {
+	$request->validate([
+		'name' => 'required',
+		'description' => 'required',
+		'price' => 'required',
+		'stock' => 'required',
+		'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+	]);
+
+	if ($request->hasFile('image')) {
+		$file = $request->file('image');
+		$path = time() . '_' . $request->name . '.' . $file->getClientOriginalExtension();
+		Storage::disk('local')->put('public/' . $path, file_get_contents($file));
+		$product->image = $path;
+	}
+	
+	$product->name = $request->name;
+	$product->description = $request->description;
+	$product->price = $request->price;
+	$product->stock = $request->stock;
+	$product->save();
+	
+	return Redirect::route('index_product');
+	
+    }
 }
