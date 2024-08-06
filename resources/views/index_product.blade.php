@@ -8,6 +8,7 @@
 	<title>All Product</title>
 </head>
 <body>
+	<a href="{{ route('create_product') }}" class="text-blue-500">create product</a>
 	@foreach ($products as $product)
 	    <p>Name : {{ $product->name }}</p>
 	    <img src="{{ url('storage/' . $product->image) }}" alt="{{ $product->name }}" height="100" class="max-h-56">
