@@ -29,4 +29,7 @@ Route::get('/product/{product}/edit', [ProductController::class, 'edit_product']
 Route::patch('/product/{product}', [ProductController::class, 'update_product'])->name('update_product');
 Route::delete('/product/{product}', [ProductController::class, 'delete_product'])->name('delete_product');
 
-Route::post('/cart/{product}', [CartController::class, 'add_to_cart'])->name('add_to_cart');
+Route::middleware('auth')->group(function () {
+	Route::post('/cart/{product}', [CartController::class, 'add_to_cart'])->name('add_to_cart');
+	Route::get('/cart', [CartController::class, 'index_cart'])->name('index_cart');
+});
