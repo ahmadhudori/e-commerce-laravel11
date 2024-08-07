@@ -34,4 +34,16 @@ class CartController extends Controller
 
 		return view('index_cart', compact('carts'));
     }
+
+    public function update_cart(Request $request, Cart $cart) {
+		$request->validate([
+			'amount' => 'required|gte:1|lte:' . $cart->product->stock
+		]);
+
+		$cart->update([
+			'amount' => $request->amount
+		]);
+
+		return Redirect::back();
+    }
 }
