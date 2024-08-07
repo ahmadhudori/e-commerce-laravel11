@@ -13,19 +13,31 @@ class CartController extends Controller
 	
     public function add_to_cart(Request $request, Product $product)
     {
-	   $request->validate([
-		'amount' => 'required|gte:1'
-	   ]);
-
 	   $user_id = Auth::user()->id;
+	   $existing_cart = Cart::where('user_id', $user_id )->where('product_id', $product->id)->first();
+	   if($existing_cart == null) {
+		$request->validate([
+		  'amount' => 'required|gte:1|lte:' . $product->stock
+		]);
 
-	   Cart::create([
-		'amount' => $request->amount,
-		'user_id' => $user_id,
-		'product_id' => $product->id
-	   ]);
+		Cart::create([
+			'amount' => $request->amount,
+			'user_id' => $user_id,
+			'product_id' => $product->id
+		   ]);
+	   } else {
+			$request->validate([
+				'amount' => 'required|gte:1|lte:' . ($product->stock - $existing_cart->amount)
+			]);
+   
+		   $existing_cart->update([
+			'amount' => $existing_cart->amount + $request->amount
+		   ]);
+	   }
 
-	   return Redirect::route('index_product');
+	   
+
+	   return Redirect::route('index_cart');
     }
 
     public function index_cart() {
