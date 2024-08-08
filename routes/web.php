@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -35,3 +36,5 @@ Route::middleware('auth')->group(function () {
 	Route::patch('/cart/{cart}', [CartController::class, 'update_cart'])->name('update_cart');
 	Route::delete('/cart/{cart}', [CartController::class, 'delete_cart'])->name('delete_cart');
 });
+
+Route::post('/checkout', [OrderController::class, 'checkout'])->name('checkout');

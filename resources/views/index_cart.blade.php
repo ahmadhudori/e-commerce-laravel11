@@ -29,5 +29,9 @@
 		<button type="submit">Delete</button>
 	</form>
 	@endforeach
+	<form action="{{ route('checkout') }}" method="POST">
+		@csrf
+		<button type="submit">Checkout</button>
+	</form>
 </body>
 </html>
