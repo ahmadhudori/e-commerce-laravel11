@@ -46,4 +46,8 @@ class OrderController extends Controller
 		// $transactions = Transaction::all();
 		return view('index_order', compact('orders'));
     }
+
+    public function show_order(Order $order) {
+		return view('show_order', compact('order'));
+    }
 }

@@ -21,9 +21,9 @@ class Product extends Model
 	'stock'
     ];
 
-    public function transactions():BelongsTo
+    public function transactions():HasMany
     {
-	return $this->belongsTo(Transaction::class);
+	return $this->hasMany(Transaction::class);
     }
 
     public function carts():HasMany

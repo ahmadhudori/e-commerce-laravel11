@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Transaction extends Model
 {
@@ -16,13 +17,13 @@ class Transaction extends Model
 	'order_id'
     ];
 
-    public function order():HasOne
+    public function order():BelongsTo
     {
-	return $this->hasOne(Order::class);
+	return $this->belongsTo(Order::class);
     }
 
-    public function product():HasOne
+    public function product():BelongsTo
     {
-	return $this->hasOne(Product::class);
+	return $this->belongsTo(Product::class);
     }
 }
