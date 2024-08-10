@@ -40,4 +40,10 @@ class OrderController extends Controller
 
 		return Redirect::back();
     }
+
+    public function index_order() {
+		$orders = Order::all();
+		// $transactions = Transaction::all();
+		return view('index_order', compact('orders'));
+    }
 }
