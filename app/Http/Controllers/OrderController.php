@@ -67,4 +67,11 @@ class OrderController extends Controller
 
 		return Redirect::back();
     }
+
+    public function confirm_payment_receipt(Order $order) {
+		$order->update([
+			'is_paid' => true
+		]);
+		return Redirect::back();
+    }
 }
