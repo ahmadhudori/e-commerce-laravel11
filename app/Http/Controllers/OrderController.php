@@ -39,7 +39,7 @@ class OrderController extends Controller
 			$cart->delete();
 		}
 
-		return Redirect::back();
+		return Redirect::route('show_order', $order->id);
     }
 
     public function index_order() {
