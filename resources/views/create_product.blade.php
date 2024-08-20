@@ -40,20 +40,6 @@
 
 	 {{-- Form --}}
 	 <div class="mx-3 lg:max-w-7xl sm:px-6 lg:px-8 lg:mx-auto mb-5">
-		<!--
-		This example requires some changes to your config:
-		
-		```
-		// tailwind.config.js
-		module.exports = {
-		// ...
-		plugins: [
-			// ...
-			require('@tailwindcss/forms'),
-		],
-		}
-		```
-		-->
 		<form action="{{ route('store_product') }}" enctype="multipart/form-data" method="post">
 			@csrf
 			<div class="space-y-12">
@@ -142,16 +128,16 @@
 				<img id="preview" class="w-fit h-64 object-cover rounded-lg">
 			 </div>
 		
-			<div class="mt-6 flex items-center justify-end gap-x-6">
-			@if($errors->any())
-				<ul>
-					@foreach($errors->all() as $error)
-						<li>{{ $error }}</li>
-					@endforeach
-				</ul>
-			@endif
-			<a href="{{ route('index_product') }}" onclick="return confirm('cancel create product ?')"><button type="button" class="text-sm font-semibold leading-6 text-gray-900">Cancel</button></a>
-			<button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Create Product</button>
+			<div class="mt-6 flex items-center justify-end gap-x-6 pb-4">
+				@if($errors->any())
+					<ul>
+						@foreach($errors->all() as $error)
+							<li>{{ $error }}</li>
+						@endforeach
+					</ul>
+				@endif
+				<a href="{{ route('index_product') }}" onclick="return confirm('cancel create product ?')"><button type="button" class="text-sm font-semibold leading-6 text-gray-900">Cancel</button></a>
+				<button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Create Product</button>
 			</div>
 		</form>
    

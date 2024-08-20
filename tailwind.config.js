@@ -17,6 +17,11 @@ export default {
             gridTemplateRows: {
                 "[auto,auto,1fr]": "auto auto 1fr",
             },
+            zIndex: {
+                "-1": "-1",
+                "-10": "-10",
+                "-50": "-50",
+            },
         },
     },
 

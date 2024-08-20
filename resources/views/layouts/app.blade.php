@@ -34,5 +34,12 @@
                 {{ $slot }}
             </main>
         </div>
+	   {{-- <script>
+		import Alpine from 'alpinejs'
+		
+		window.Alpine = Alpine
+		
+		Alpine.start()
+	   </script> --}}
     </body>
 </html>

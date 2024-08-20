@@ -17,10 +17,9 @@ class OrderController extends Controller
 		$user_id = Auth::user()->id;
 		$carts = Cart::where('user_id', $user_id)->get();
 
-		if($carts == null) {
+		if($carts->count() == 0) {
 			return Redirect::back();
-		}
-
+		} else {
 		$order = Order::create([
 			'user_id' => $user_id
 		]);
@@ -40,6 +39,8 @@ class OrderController extends Controller
 		}
 
 		return Redirect::route('show_order', $order->id);
+		}
+
     }
 
     public function index_order() {

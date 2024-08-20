@@ -37,130 +37,56 @@
 </html> --}}
 
 <x-app-layout>
-	<div class="relative z-10" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
-		<!--
-		  Background backdrop, show/hide based on slide-over state.
-	   
-		  Entering: "ease-in-out duration-500"
-		    From: "opacity-0"
-		    To: "opacity-100"
-		  Leaving: "ease-in-out duration-500"
-		    From: "opacity-100"
-		    To: "opacity-0"
-		-->
-		<div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
-	   
-		<div class="fixed inset-0 overflow-hidden">
-		  <div class="absolute inset-0 overflow-hidden">
-		    <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
-			 <!--
-			   Slide-over panel, show/hide based on slide-over state.
-	   
-			   Entering: "transform transition ease-in-out duration-500 sm:duration-700"
-				From: "translate-x-full"
-				To: "translate-x-0"
-			   Leaving: "transform transition ease-in-out duration-500 sm:duration-700"
-				From: "translate-x-0"
-				To: "translate-x-full"
-			 -->
-			 <div class="pointer-events-auto w-screen max-w-md">
-			   <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
-				<div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
-				  <div class="flex items-start justify-between">
-				    <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">Shopping cart</h2>
-				    <div class="ml-3 flex h-7 items-center">
-					 <button type="button" class="relative -m-2 p-2 text-gray-400 hover:text-gray-500">
-					   <span class="absolute -inset-0.5"></span>
-					   <span class="sr-only">Close panel</span>
-					   <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-						<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-					   </svg>
-					 </button>
-				    </div>
-				  </div>
-	   
-				  <div class="mt-8">
-				    <div class="flow-root">
-					 <ul role="list" class="-my-6 divide-y divide-gray-200">
-						{{-- logic total price --}}
-						@php
-							$total_price = 0;
-						@endphp
-						@foreach($carts as $cart)
-					   <li class="flex py-6">
-						<div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-						  <img src="{{ url('storage/' . $cart->product->image) }}" alt="{{ $cart->product->name }}" class="h-full w-full object-cover object-center">
-						</div>
-	   
-						<div class="ml-4 flex flex-1 flex-col">
-						  <div>
-						    <div class="flex justify-between text-base font-medium text-gray-900">
-							 <h3>
-							   <a href="{{ route('show_product', $cart->product) }}">{{ $cart->product->name }}</a>
-							 </h3>
-							 <p class="ml-4">Rp.{{ Number::format(($cart->product->price * $cart->amount), locale: 'id') }}</p>
-						    </div>
-						    <p class="mt-1 text-sm text-gray-500">{{ Str::limit($cart->product->description, 10) }}</p>
-						  </div>
-						  <div>
-							<form action="{{ route('update_cart', $cart) }}" method="post" class="flex flex-1 items-center justify-between my-2 text-sm">
-								@method('patch')
-								@csrf
-								<input type="number" name="amount" value="{{ $cart->amount }}" class="w-1/2 pl-2 pr-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-								<button type="submit">Update Amount</button>
-							</form>
-						  </div>
-						  <div class="flex flex-1 items-end justify-between text-sm">
-						    <p class="text-gray-500">Qty: {{ $cart->amount }}</p>
-							
-						    <div class="flex">
-							<form action="{{ route('delete_cart', $cart) }}" method="post" onsubmit="return confirm('Are you sure?')">
-								@method('delete')
-								@csrf
-								<button type="submit" class="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
-							</form>
-						    </div>
-						  </div>
-						</div>
-					   </li>
-					   
-						@php
-						$total_price += $cart->product->price * $cart->amount;
-				  		@endphp
-						@endforeach
-					   <!-- More products... -->
-					 </ul>
-				    </div>
-				  </div>
-				</div>
-	   
-				<div class="border-t border-gray-200 px-4 py-6 sm:px-6">
-				  <div class="flex justify-between text-base font-medium text-gray-900">
-				    <p>Subtotal</p>
-				    <p>Rp.{{ Number::format(($total_price), locale: 'id') }}</p>
-				  </div>
-				  <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
-				  <div class="mt-6">
-				    <form action="{{ route('checkout') }}" method="POST" class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">
+	<div class="bg-gray-100 p-8">
+		<div class="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-6">
+			<h2 class="text-2xl font-bold mb-6">Shopping Cart</h2>
+	  
+			<div class="space-y-6">
+				@php
+					$total_price = 0;
+				@endphp
+				@foreach ($carts as $cart)
+			    <div class="flex items-center justify-between">
+				   <div class="flex items-center space-x-4">
+					  <img src="{{ url('storage/'. $cart->product->image) }}" alt="{{ $cart->product->name }}" class="w-20 h-20 object-cover rounded">
+					  <div>
+						 <h3 class="text-lg font-semibold">{{ $cart->product->name }}</h3>
+						 <p class="text-gray-500">Quantity: {{ $cart->amount }}</p>
+					  </div>
+				   </div>
+				   <p class="text-lg font-semibold">Rp. {{ Number::format($cart->product->price *$cart->amount, locale: 'id') }}</p>
+				   <form action="{{ route('delete_cart', $cart) }}" method="POST" onsubmit="return confirm('Are you sure?')">
 					@csrf
-					<button type="submit" >Checkout</button>
+					@method('delete')
+					<button type="submit">remove</button>
+				   </form>
+			    </div>
+			    <div>
+					<form action="{{ route('update_cart', $cart) }}" method="post" onsubmit="return confirm('Are you sure?')"  class="grid grid-cols-3">
+						@method('patch')
+						@csrf
+						<input type="number" name="amount" value="{{ $cart->amount }}" class="w-20 rounded-lg col-start-2 justify-self-end">
+						<button type="submit" class="col-start-3 justify-self-end">Update Amount</button>
 					</form>
-				  </div>
-				  <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
-				    <p>
-					 or
-					 <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">
-					   Continue Shopping
-					   <span aria-hidden="true"> &rarr;</span>
-					 </button>
-				    </p>
-				  </div>
-				</div>
-			   </div>
-			 </div>
-		    </div>
-		  </div>
-		</div>
-	   </div>
-	   
+			    </div>
+			    @php
+			    		$total_price += $cart->product->price * $cart->amount;
+			    @endphp
+			    @endforeach
+			</div>
+	  
+			<div class="mt-8 border-t pt-4">
+			    <div class="flex justify-between text-lg font-semibold">
+				   <span>Total</span>
+				   <span>Rp. {{ Number::format($total_price, locale: 'id') }}</span>
+			    </div>
+			    <div class="{{ $total_price == 0 ? 'hidden' : '' }}">
+					<form action="{{ route('checkout') }}" method="POST">
+						@csrf
+						<button type="submit" class="w-full mt-6 bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Checkout</button>
+					</form>
+			    </div>
+			</div>
+		 </div>
+	</div>
 </x-app-layout>
